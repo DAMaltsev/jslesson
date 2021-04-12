@@ -1,54 +1,93 @@
-let numverOfFilms;
 
-function start () {
-    numverOfFilms = +prompt('Сколько фильмов вы посмотрели?', '');
-
-    while (numverOfFilms == "" || numverOfFilms == null || isNaN(numverOfFilms)) {
-        numverOfFilms = +prompt('Сколько фильмов вы посмотрели?', '');
-    }
-}
-
-start();
 
 const personMovieDB = {
-    count: numverOfFilms,
+    count: 0,
     movies: {},
     actors: {},
     genres: [],
-    private: false
+    private: false,
+    start: function() {
+        personMovieDB.count = +prompt('Сколько фильмов вы посмотрели?', '');
+            
+        while (personMovieDB.count == "" || personMovieDB.count == null || isNaN(personMovieDB.count)) {
+            personMovieDB.count = +prompt('Сколько фильмов вы посмотрели?', '');
+        }
+
+        return personMovieDB.count;
+    },
+    writeGenres: function() {
+        let i = 1;
+        do{
+            let answer = prompt(`Ваш любимый жанр под номером ${i}?`, '');
+
+            if(answer !== null && answer != ""){
+                personMovieDB.genres[i-1] = answer;
+                i++;
+            }
+        }
+        while(i < 4);
+
+        // for (let i = 1; i < 4; i++ ) {
+             
+        //     let answer = prompt(`Ваш любимый жанр под номером ${i}?`, '');
+        //     if(answer === null || answer == ""){
+        //         let answer = prompt(`Ваш любимый жанр под номером ${i}?`, '');
+        //         i--;
+        //     } else {
+        //         personMovieDB.genres[i-1] = answer;
+        //     }
+        // }
+
+        personMovieDB.genres.forEach((value, index) => {
+            console.log(`Жанр № ${index + 1}- это ${value}`);
+        });
+    },
+    detectLevel: function() {
+        if (personMovieDB.count < 10) {
+            console.log('Мало фильмов');
+        } else if(personMovieDB.count < 30 ){
+            console.log('Вы средний зритель');
+        } else if(personMovieDB.count > 30 ){
+            console.log('Вы киноман');
+        } else {
+            console.log('Произошла ошибка');
+        }
+    }, 
+    showMyDB: function() {
+        if (personMovieDB.private==false) {
+            console.log(personMovieDB);
+            console.log('Great work!');
+        } else {
+            console.log('error!');
+        }
+    },
+    rememberMyFilms: function() {
+        for (let i=0; i < 2; i++ ) {
+            let Movie = prompt('Один из последних просмотренных фильмов?', ''),
+                 Review = prompt('На сколько его оцените?');
+        
+            if (Movie == "" ||  Review == 0 || Movie == null ||  Review == null || Movie.length > 50) {
+                console.log('Error');
+                i--;
+                console.log(i);
+            } else {
+                personMovieDB.movies[Movie] = Review;
+            }
+        }
+    },
+
+    toggleVis: function(){
+        if(personMovieDB.private === false){
+            personMovieDB.private = true;
+        } else {
+            personMovieDB.private = false;
+        }
+    }
 };
 
-function showMyDB() {
-    if (personMovieDB.private==false) {
-        console.log(personMovieDB);
-        console.log('Great work!');
-    } else {
-        console.log('error!');
-    }
-}
-
-showMyDB(personMovieDB);
 
 
-function writeGenres() {
-    for (let i = 1; i < 4; i++ ) {
-        personMovieDB.genres[i-1] = prompt(`Ваш любимый жанр под номером ${i}?`, '');
-    }
-}
 
-writeGenres();
-
-function detectLevel() {
-    if (numverOfFilms < 10) {
-        console.log('Мало фильмов');
-    } else if(numverOfFilms < 30 ){
-        console.log('Вы средний зритель');
-    } else if(numverOfFilms > 30 ){
-        console.log('Вы киноман');
-    } else {
-        console.log('Произошла ошибка');
-    }
-}
 
 // detectLevel();
 
@@ -103,22 +142,6 @@ function detectLevel() {
 //     }
 // }
 // while (i < 2);
-
-
-function rememberMyFilms() {
-    for (let i=0; i < 2; i++ ) {
-        let Movie = prompt('Один из последних просмотренных фильмов?', ''),
-             Review = prompt('На сколько его оцените?');
-    
-        if (Movie == "" ||  Review == 0 || Movie == null ||  Review == null || Movie.length > 50) {
-            console.log('Error');
-            i--;
-            console.log(i);
-        } else {
-            personMovieDB.movies[Movie] = Review;
-        }
-    }
-}
 
 // rememberMyFilms();
 

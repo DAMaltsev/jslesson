@@ -102,3 +102,159 @@ const calc2 = a => a + 2;
 //Методы это вспомогательные функции
 //Свойства это вспомогательные значения
 //Поиск подстроки с помощью метода indexOf()
+
+//Callback функция - это функция которая должна быть выполнена после завершения другой функции. В аргументах без функция без скобок
+
+function learnJS (lang, callback) {
+    console.log(`Я учу: ${lang}`);
+    callback();
+}
+
+learnJS('JavaScript', function(){
+    console.log('Я прошел этот урок');
+});
+
+
+//Так как в объекте нет свойства length, то с помощью Object.keys(options).length мы переводим это в массив (массивы и строки имееют свойство length - количество элементов
+
+//Методы в объекте
+
+const options = {
+    name: 'test',
+    width: 1024,
+    height: 1024,
+    colors: {
+        border: 'black',
+        bg: 'red'
+    },
+    makeTest: function(){
+        console.log('Test');
+    }
+};
+
+options.makeTest();
+
+console.log(Object.keys(options).length);
+
+//Деструктуризация объекта
+
+const {border, bg} = options.colors;
+
+console.log(border);
+
+//Счетчик object
+
+let counter = 0;
+
+for (let x in options) {
+    counter++;
+    console.log(counter);
+}
+
+for (let key in options) {
+    if(typeof(options[key]) === 'object') {
+        for (let i in options[key]) {
+            console.log(`Свойство: ${i} имеет значение ${options[key][i]}`);
+        }
+    } else {
+        console.log(`Свойство: ${key} имеет значение ${options[key]}`);
+    }
+        
+}
+
+
+//Методы массива
+//Pop - удаляет последний элемент массива
+//Push - добавляет элемент в конец массива
+
+//Shift/Unshift - имееют минусы. Они меняют индексы элементов что влияет на скорость
+
+const arr = [1, 2, 3, 6, 8];
+
+arr.pop();
+
+console.log(arr);
+
+// for OF работает только с массивоподобными объектами ( + строками). Можно использовать break и continue
+
+for (let value of arr) {
+    console.log(value);
+}
+
+//Возможные нарушение массива при arr.length (последний индекс +1)
+//forEach для массива
+
+arr.forEach(function(item, i, arr){
+    console.log(`${i}: ${item} внутри массива ${arr}`);
+}); 
+
+//Метод split
+
+const str = prompt("", "");
+const products = str.split(', ');
+
+console.log(products);
+
+//Метод join (объединение массива в строку)
+
+console.log(products.join('; '));
+
+//Метод sort() сортирует как строки. Использует алгоритм быстрой сортировки. С цифрами работает по символьно. Но может принимать callback функцию
+
+function compareNum(a, b) {
+    return a - b;
+}
+
+console.log(products.sort());
+
+//Псевдомассивы. У них нет методов
+//Изменяя что то внутри копии объекта мы модифицируем сам объект а не копию
+
+const copy = obj; //Ссылка на объекта!!! Передача по ссылки
+
+//Чтобы создать копию массива/объекта
+
+function copy3 (mainObj) {
+    let objCopy = {};
+    let key;
+
+    for( key in mainObj) {
+        objCopy[key] = mainObj[key];
+    }
+
+    return objCopy;
+}
+
+
+//Есть глубокие и поверхностные копии объекта
+// метода Object.assign('obj1', 'obj2) - совмещает объекты второй в первый
+
+//Копирование массива
+
+const oldArray = ['a', 'b', 'c'];
+const newArray = oldArray.slice();
+
+console.log(newArray);
+
+//В ES появился spread оператор для копирования 
+
+const videoHost = ['youtube', 'vimeo', 'rutube'];
+const siteBuilders = ['wordpress', 'shopify'];
+const internet = [...videoHost, ...siteBuilders, 'facebook'];
+
+console.log(internet);
+
+//Задать прототип объекту 
+
+const soldier = {
+    health: 500,
+    armor: 100
+};
+const john = {
+    health: 150,
+};
+
+
+Object.setPrototypeOf(john, soldier);
+
+const dan = Object.create(soldier);
